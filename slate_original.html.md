@@ -1,44 +1,65 @@
 ---
-title: Payconiq Partner API Specification
+title: API Reference
 
 language_tabs:
   - shell
-  - javascript
-  - php
+  - ruby
+  - python
 
 toc_footers:
-  - <a href='#'>Sign Up</a>
-  - <a href='https://github.com/swarm1/slate'>Documentation on GitHub</a>
+  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
-  - where are includes
 
 search: true
 ---
 
-# Summary
+# Introduction
 
-Partner API Specification Approved by Thomas Fuss
-Document Version Control:
-0.1 22-Sep-2015 Nitin Deshmukh Initial Draft
-0.2 19-Jan-2016 Nitin Deshmukh Added new APIs
+Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
 
-This document describes workflows and APIs for integrating Payconiq as a white label payment solution. Partner will receive an Identifier and Access Token from Payconiq. It’s mandatory to provide partner’s ID as a URL path parameter and Access token as Authorisation header for all APIs listed in this document unless it is stated explicitly. APIs are available on Testing and Production environment and are accessible using following URLs -
+We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
+This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
-Testing [https://dev.payconiq.com](https://dev.payconiq.com)  
-Production [https://api.payconiq.com](https://api.payconiq.com)  
-Please note that the SSL certificate is self signed for Testing URL. This will be changed in future.
+# Authentication
 
+> To authorize, use this code:
 
-# Work Flows
+```ruby
+require 'kittn'
 
-> This Chapter covers workflows for Payconiq Partner Integration. APIs used in workflows are covered in subsequent chapter.
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
 
-## Partner Administration
-Following sequence diagram covers  
-*Request Partner Details
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+```
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "api_endpoint_here"
+  -H "Authorization: meowmeowmeow"
+```
+
+> Make sure to replace `meowmeowmeow` with your API key.
+
+Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+
+Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+
+`Authorization: meowmeowmeow`
+
+<aside class="notice">
+You must replace <code>meowmeowmeow</code> with your personal API key.
+</aside>
+
+# Kittens
+
 ## Get All Kittens
 
 ```ruby
