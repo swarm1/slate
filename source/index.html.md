@@ -17,7 +17,7 @@ includes:
 search: true
 ---
 
-# Test GitHub connection
+# Summary
 
 Partner API Specification Approved by Thomas Fuss
 
