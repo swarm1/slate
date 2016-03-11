@@ -20,128 +20,79 @@ search: true
 # Summary
 
 Partner API Specification Approved by Thomas Fuss
+
+Name | Role | Signature
+-------------- | -------------- | --------------
+Thomas Fuss | Head of IT and Operations | Thomas Fuss
+
+ 
+
 Document Version Control:
-0.1 22-Sep-2015 Nitin Deshmukh Initial Draft
-0.2 19-Jan-2016 Nitin Deshmukh Added new APIs
+
+Version | Date | Author | Description
+-------------- | -------------- | -------------- | --------------
+0.1 | 22-Sep-2015 | Nitin Deshmukh | Initial Draft
+0.2 | 19-Jan-2016 | Nitin Deshmukh | Added new APIs
+ 
 
 This document describes workflows and APIs for integrating Payconiq as a white label payment solution. Partner will receive an Identifier and Access Token from Payconiq. It’s mandatory to provide partner’s ID as a URL path parameter and Access token as Authorisation header for all APIs listed in this document unless it is stated explicitly. APIs are available on Testing and Production environment and are accessible using following URLs -
 
 
 Testing [https://dev.payconiq.com](https://dev.payconiq.com)  
 Production [https://api.payconiq.com](https://api.payconiq.com)  
-Please note that the SSL certificate is self signed for Testing URL. This will be changed in future.
+Please note that the SSL certificate is self signed for Testing URL. This will be changed in future.  
 
 
 # Work Flows
 
-> This Chapter covers workflows for Payconiq Partner Integration. APIs used in workflows are covered in subsequent chapter.
+This Chapter covers workflows for Payconiq Partner Integration. APIs used in workflows are covered in subsequent chapter.
 
 ## Partner Administration
-Following sequence diagram covers  
-*Request Partner Details
-## Get All Kittens
+ 
+* Request Partner Details
+* Register RSA Public Key
 
-```ruby
-require 'kittn'
+## Customer On-boarding & Administration
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+* Enrolment of new customer with provided mandate reference and sign date  
+* Request Mandate and create Mandate in case mandate reference and sign date is not provided at the time of enrolment of customer  
+* Getting Customer details(Prerequisite: Either mandate reference and sign date should be provided during customer enrolment or mandate is created explicitly using Create Mandate API)  
+* Updating customer Phone/Email
+    
+## Customer Account Administration
 
-```python
-import kittn
+* Requesting 1 ct transaction for Account Verification  
+* Verifying Account using code received as a description of 1 ct transaction
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Initiating Transaction
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
+* Initiating Transaction from Customer to Partner
+* Replay of failed SDD transaction
 
-> The above command returns JSON structured like this:
+## Transaction Reporting
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+* Requesting a Transaction details
+* Requesting Paginated List of transactions with filters and date range
 
-This endpoint retrieves all kittens.
+# API Resources
 
-### HTTP Request
+This Chapter covers all API Resources for Payconiq Partner Integration. APIs used in workflows are covered in subsequent chapter.
 
-`GET http://example.com/api/kittens`
+## Get Partner Information
+This API returns information related to Partner.
 
-### Query Parameters
+### Request
+Resource URL:
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+HTTP Method | URL
+-------------- | --------------
+GET | /v1/partners/{id}
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+|  Name   |  Description   |  Type   |   Mandatory  |    Default |
+| --- | --- | --- | --- | --- |
+|   Authorization  | Authentication token    |   Head  |   Yes  |     |
+|  id   | ID of partner    |  Path   |   Yes  |     |
 
-## Get a Specific Kitten
+### Response
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
+Response Body
